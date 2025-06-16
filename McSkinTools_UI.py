@@ -28,15 +28,15 @@ class TabView(customtkinter.CTkTabview):
         super().__init__(master, **kwargs)
 
         # create tabs
-        self.add("Get Skin")
-        self.add("Headimg")
-        self.add("Tailor")
-        self.DownloadSkin = DownloadSkin(self.tab("Get Skin"))
+        self.add("下载皮肤")
+        self.add("生成头像")
+        self.add("皮肤缝合")
+        self.DownloadSkin = DownloadSkin(self.tab("下载皮肤"))
         self.DownloadSkin.grid(row=0, column=0, padx=5, pady=5)
-        self.GenHeadimg = GenHeadimg(self.tab("Headimg"))
+        self.GenHeadimg = GenHeadimg(self.tab("生成头像"))
         self.GenHeadimg.grid(row=0, column=0, padx=5, pady=5)
         self.GenHeadimg.columnconfigure(0, weight=1)
-        self.Tailorimg = Tailor(self.tab("Tailor"))
+        self.Tailorimg = Tailor(self.tab("皮肤缝合"))
         self.Tailorimg.grid(row=0, column=0, padx=5, pady=5)
 
         # add widgets on tabs
@@ -45,7 +45,7 @@ class TabView(customtkinter.CTkTabview):
 class Tailor(customtkinter.CTkFrame):
     def pick_cover_skin(self):
         file_path = filedialog.askopenfilename(
-            title="choose a skin",
+            title="选择皮肤",
             filetypes=[("skin", "*.png")],
         )
         img = Image.open(file_path)
@@ -59,7 +59,7 @@ class Tailor(customtkinter.CTkFrame):
 
     def output(self):
         target_path = filedialog.askdirectory(
-            title="pick up a position",  # 对话框标题
+            title="选择保存位置",  # 对话框标题
         )
         cover = [
             self.ct_head.get(),
@@ -121,7 +121,7 @@ class Tailor(customtkinter.CTkFrame):
         self.skintop = customtkinter.CTkLabel(
             self,
             image=customtkinter.CTkImage(light_image=self.coverskin, size=(64, 64)),
-            text="cover skin",
+            text="上层覆盖皮肤",
         )
         self.skintop.grid(row=1, column=0, padx=5, pady=5)
         self.skinbuttom = customtkinter.CTkLabel(
@@ -129,28 +129,28 @@ class Tailor(customtkinter.CTkFrame):
             image=customtkinter.CTkImage(
                 light_image=Image.new("RGBA", [64, 64], (0, 0, 100, 255)), size=(64, 64)
             ),
-            text="skin in list",
+            text="列表中的皮肤",
         )
         self.skinbuttom.grid(row=3, column=0, padx=5, pady=5)
 
         customtkinter.CTkButton(
-            self, text="pick cover skin", command=self.pick_cover_skin, width=64
+            self, text="选择上层覆盖皮肤", command=self.pick_cover_skin, width=64
         ).grid(row=0, column=0)
         customtkinter.CTkButton(
-            self, text="Output", command=self.output, width=64
+            self, text="导出", command=self.output, width=64
         ).grid(row=8, column=0)
 
-        customtkinter.CTkLabel(self, text="top layer").grid(row=1, column=1)
-        customtkinter.CTkLabel(self, text="under layer").grid(row=2, column=1)
-        customtkinter.CTkLabel(self, text="top layer").grid(row=3, column=1)
-        customtkinter.CTkLabel(self, text="under layer").grid(row=4, column=1)
+        customtkinter.CTkLabel(self, text="顶层").grid(row=1, column=1)
+        customtkinter.CTkLabel(self, text="底层").grid(row=2, column=1)
+        customtkinter.CTkLabel(self, text="顶层").grid(row=3, column=1)
+        customtkinter.CTkLabel(self, text="底层").grid(row=4, column=1)
 
-        customtkinter.CTkLabel(self, text="head").grid(row=0, column=2)
-        customtkinter.CTkLabel(self, text="body").grid(row=0, column=3)
-        customtkinter.CTkLabel(self, text="left arm").grid(row=0, column=4)
-        customtkinter.CTkLabel(self, text="right arm").grid(row=0, column=5)
-        customtkinter.CTkLabel(self, text="left leg").grid(row=0, column=6)
-        customtkinter.CTkLabel(self, text="right leg").grid(row=0, column=7)
+        customtkinter.CTkLabel(self, text="头部").grid(row=0, column=2)
+        customtkinter.CTkLabel(self, text="身体").grid(row=0, column=3)
+        customtkinter.CTkLabel(self, text="左手").grid(row=0, column=4)
+        customtkinter.CTkLabel(self, text="右手").grid(row=0, column=5)
+        customtkinter.CTkLabel(self, text="左腿").grid(row=0, column=6)
+        customtkinter.CTkLabel(self, text="右腿").grid(row=0, column=7)
 
         self.ct_head = customtkinter.CTkSwitch(self, text="", width=50)
         self.ct_head.grid(row=1, column=2)
@@ -210,18 +210,18 @@ class GenHeadimg(customtkinter.CTkFrame):
         super().__init__(master, **kwargs)
 
         self.gen2DButton = customtkinter.CTkButton(
-            self, text="Generate 2D headimg", command=self.gen2D
+            self, text="生成2D头像", command=self.gen2D
         )
         self.gen2DButton.grid(row=0, column=0, pady=(0, 5))
         self.gen3DButton = customtkinter.CTkButton(
-            self, text="Generate 3D headimg", command=self.gen3D
+            self, text="生成3D头像", command=self.gen3D
         )
         self.gen3DButton.grid(row=1, column=0, pady=(0, 5))
 
     def gen2D(self):
         global skin_list
         target_path = filedialog.askdirectory(
-            title="pick up a position",
+            title="选择保存位置",
         )
         if target_path:
             for skin in skin_list:
@@ -236,7 +236,7 @@ class GenHeadimg(customtkinter.CTkFrame):
     def gen3D(self):
         global skin_list
         target_path = filedialog.askdirectory(
-            title="pick up a position",
+            title="选择保存位置",
         )
         if target_path:
             for skin in skin_list:
@@ -254,21 +254,21 @@ class DownloadSkin(customtkinter.CTkFrame):
         super().__init__(master, **kwargs)
 
         self.label = customtkinter.CTkLabel(
-            self, text="Input player id (one per line)："
+            self, text="输入玩家ID（每行一个）："
         )
         self.label.grid(row=0, column=0, pady=(0, 5))
         self.textbox = customtkinter.CTkTextbox(self, width=200, height=300)
         self.textbox.grid(row=1, column=0, pady=(0, 5))
         self.label1 = customtkinter.CTkLabel(
-            self, text="It takes some time to download all the skins."
+            self, text="下载所有皮肤需要一些时间，请耐心等待。失败请检查网络。"
         )
         self.label1.grid(row=2, column=0, pady=(0, 5))
         self.downloadButton = customtkinter.CTkButton(
-            self, text="Download to Skin List", command=self.download
+            self, text="下载列表中的皮肤", command=self.download
         )
         self.downloadButton.grid(row=3, column=0, pady=(0, 5))
         self.progressbar = customtkinter.CTkProgressBar(
-            self, orientation="download progress"
+            self, orientation="下载进度"
         )
         self.progressbar.grid(row=4, column=0, pady=(0, 5))
         self.progressbar.set(1)
@@ -325,14 +325,14 @@ class App(customtkinter.CTk):
         self.leftSide.leftIO.Input = customtkinter.CTkButton(
             self.leftSide.leftIO,
             width=(222 - 5) / 2,
-            text="Input",
+            text="导入皮肤",
             command=self.input_skin,
         )
         self.leftSide.leftIO.Input.grid(row=0, column=0, sticky="ew")
         self.leftSide.leftIO.Output = customtkinter.CTkButton(
             self.leftSide.leftIO,
             width=(222 - 5) / 2,
-            text="Output",
+            text="导出皮肤",
             command=self.output,
         )
         self.leftSide.leftIO.Output.grid(row=0, column=1, padx=(5, 0), sticky="ew")
@@ -342,7 +342,7 @@ class App(customtkinter.CTk):
 
     def output(self):
         target_path = filedialog.askdirectory(
-            title="pick up a position",  # 对话框标题
+            title="选择保存位置",  # 对话框标题
         )
         for skin in skin_list:
             skin[0].save(
@@ -365,7 +365,7 @@ class App(customtkinter.CTk):
 
     def input_skin(self):
         file_paths = filedialog.askopenfilenames(
-            title="input skins",
+            title="导入皮肤",
             filetypes=[("skin", "*.png")],
         )
         for file in file_paths:
