@@ -212,4 +212,4 @@ def crop_skin(skin: Image) -> Image:
 
 
 if "__main__" == __name__:
-    crop_skin(Image.open("./skin/Gufandf_2.png"))[0].show()
+    print("please run McSkinTools_UI.py instead of this py file.")
