@@ -112,7 +112,7 @@ def gen_headimg3D(skin: Image) -> Image:
     )
     l1_f = perspectiveTrans(
         l1_f.resize([256, 256], Image.NEAREST),
-        [(242, 58), (128, 115), (128, 254), (242, 197)],
+        [(128, 115), (242, 58), (242, 197), (128, 254)],
     )
     l1_t = perspectiveTrans(
         l1_t.resize([256, 256], Image.NEAREST),
@@ -132,7 +132,7 @@ def gen_headimg3D(skin: Image) -> Image:
     )
     l2_f = perspectiveTrans(
         l2_f.resize([256, 256], Image.NEAREST),
-        [(242, 58), (128, 115), (128, 254), (242, 197)],
+        [(128, 115), (242, 58), (242, 197), (128, 254)],
     )
     l2_t = perspectiveTrans(
         l2_t.resize([256, 256], Image.NEAREST),
