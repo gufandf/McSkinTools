@@ -1,6 +1,8 @@
 from PIL import Image, ImageEnhance
 import os
 import requests, json, base64
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import numpy as np
 from io import BytesIO
 
@@ -39,7 +41,7 @@ def perspectiveTrans(image: Image, target_points: list) -> Image:
 def get_skin(username) -> Image:
     # 获取玩家的UUID
     uuid_url = f"https://api.mojang.com/users/profiles/minecraft/{username}"
-    response = requests.get(uuid_url)
+    response = requests.get(uuid_url, verify=False)
     if response.status_code != 200:
         print(f"无法找到玩家 {username}")
         return None
@@ -47,7 +49,7 @@ def get_skin(username) -> Image:
 
     # 获取玩家的皮肤信息
     skin_url = f"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
-    response = requests.get(skin_url)
+    response = requests.get(skin_url, verify=False)
     if response.status_code != 200:
         print(f"无法获取皮肤信息 {username}")
         return None
@@ -59,7 +61,7 @@ def get_skin(username) -> Image:
     skin_url = skin_data_decoded["textures"]["SKIN"]["url"]
 
     # 下载皮肤
-    response = requests.get(skin_url)
+    response = requests.get(skin_url, verify=False)
     if response.status_code == 200:
         image_data = BytesIO(response.content)
         img = Image.open(image_data)
@@ -168,7 +170,7 @@ right_leg_o: Image,
 """
 
 
-def crop_skin(skin: Image) -> Image:
+def crop_skin(skin: Image) -> list[Image]:
     top_head = Image.new("RGBA", [64, 64], (0, 0, 0, 0))
     top_head.paste(skin.crop([32, 0, 64, 16]).convert("RGBA"), (32, 0))
     und_head = Image.new("RGBA", [64, 64], (0, 0, 0, 0))
